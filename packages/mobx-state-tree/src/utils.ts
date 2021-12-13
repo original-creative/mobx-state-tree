@@ -87,7 +87,7 @@ export function isArray(val: any): val is any[] {
  * @hidden
  */
 export function asArray<T>(val: undefined | null | T | T[] | ReadonlyArray<T>): T[] {
-    if (!val) return (EMPTY_ARRAY as any) as T[]
+    if (!val) return EMPTY_ARRAY as any as T[]
     if (isArray(val)) return val as T[]
     return [val] as T[]
 }
@@ -407,8 +407,11 @@ export function warnError(msg: string) {
  */
 export function isTypeCheckingEnabled() {
     return (
-        devMode() ||
-        (typeof process !== "undefined" && process.env && process.env.ENABLE_TYPE_CHECK === "true")
+        false &&
+        (devMode() ||
+            (typeof process !== "undefined" &&
+                process.env &&
+                process.env.ENABLE_TYPE_CHECK === "true"))
     )
 }
 
@@ -417,7 +420,7 @@ export function isTypeCheckingEnabled() {
  * @hidden
  */
 export function devMode() {
-    return process.env.NODE_ENV !== "production"
+    return false && process?.env?.NODE_ENV !== "production"
 }
 
 /**
